@@ -17,12 +17,13 @@
                 </ul>
             </div>
         @endif
-        
+
         <table class="table table-striped table-bordered table-hover" id="tblCategories">
             <thead>
                 <tr>
                     <th>Nombre</th>
                     <th>Descripción</th>
+                    <th>Imagen</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
@@ -32,8 +33,18 @@
                     <tr>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->description }}</td>
-                        <td>{{ $category->state ? 'Activo' : 'Inactivo' }}</td>
                         <td>
+                            <img src="{{ $category->image ? 'data:image/jpeg;base64,' . $category->image : 'https://placehold.co/500' }}"
+                                class="img-fluid rounded" alt="Imagen" width="100px">
+                        </td>
+                        <td>
+                            <span class="badge {{ $category->state ? 'bg-success' : 'bg-danger' }}">
+                                {{ $category->state ? 'ACTIVO' : 'INACTIVO' }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ route('product.category', $category->id) }}" class="btn btn-warning">Ver
+                                productos({{ $category->products->where('state', true)->count() }})</a>
                             <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary">Editar</a>
                             <a href="{{ route('category.destroy', $category->id) }}" class="btn btn-danger">Eliminar</a>
                         </td>
@@ -51,8 +62,6 @@
         $(document).ready(function() {
             $('#tblCategories').DataTable({
                 "language": {
-                    // "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
-                    // uno por uno 
                     "processing": "Procesando...",
                     "search": "Buscar:",
                     "lengthMenu": "Mostrar _MENU_ registros",
@@ -77,10 +86,8 @@
                 "info": true,
                 "autoWidth": false,
                 "scrollX": true,
-                "order": [
-                    [0, "asc"]
-                ]
-                
+
+
             });
         });
     </script>

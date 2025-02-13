@@ -9,7 +9,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::where('state', 1)->get();
         return view('category.index', compact('categories'));
     }
 
@@ -21,17 +21,32 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         // validaciones 
-        $this->validate($request, [
-            'name' => 'required|unique:categories,name',
-            // 'description' => 'required',
-            'state' => 'required',
-        ]);
+        $this->validate(
+            $request,
+            [
+                'name' => 'required|unique:categories,name',
+                // 'description' => 'required',
+                'state' => 'required',
+            ]
+            // mensajes de error en español
+            ,
+            [
+                'name.unique' => 'El nombre de la categoria ya existe',
+                'state.required' => 'El estado es obligatorio',
+            ]
+        );
+
+        $image = $request->file('image');
 
         $category = new Category();
-
         $category->name = $request->name;
         $category->description = $request->description;
         $category->state = $request->state == 'on';
+
+        if ($image) {
+            $imagenBase64 = base64_encode(file_get_contents($image));
+            $category->image = $imagenBase64;
+        }
         $category->save();
 
         return redirect()->route('category.index')->with('success', 'Categoria creada exitosamente');
@@ -49,11 +64,20 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         // validaciones
-        $this->validate($request, [
-            'name' => 'required|unique:categories,name,'.$id,
-            // 'description' => 'required',
-            'state' => 'required',
-        ]);
+        $this->validate(
+            $request,
+            [
+                'name' => 'required|unique:categories,name,' . $id,
+                // 'description' => 'required',
+                'state' => 'required',
+            ]
+            // mensajes de error en español
+            ,
+            [
+                'name.unique' => 'El nombre de la categoria ya existe',
+                'state.required' => 'El estado es obligatorio',
+            ]
+        );
 
         $category = Category::find($id);
         if (!$category) {
@@ -68,6 +92,14 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->state = $request->state == 'on';
+
+        $image = $request->file('image');
+
+        if ($image) {
+            $imagenBase64 = base64_encode(file_get_contents($image));
+            $category->image = $imagenBase64;
+        }
+
         $category->save();
 
         return redirect()->route('category.index');
@@ -84,7 +116,7 @@ class CategoryController extends Controller
         // Eliminado logico
         $category->state = false;
         $category->save();
-        
+
 
         return redirect()->route('category.index')->with('success', 'Categoria eliminada exitosamente');
     }
