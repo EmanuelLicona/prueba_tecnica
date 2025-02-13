@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="container mt-4 mx-auto" style="max-width: 800px;">
-        <h1>Crear Categoria</h1>
+        <h1>Crear Producto</h1>
         {{-- errores de validación --}}
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form action="{{ route('category.store') }}" method="POST">
+        <form action="{{ route('product.store') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="name">Nombre</label>
@@ -25,13 +25,23 @@
                 <label for="description">Descripción</label>
                 <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}">
             </div>
+
+            {{-- categorias --}}
+            <div class="form-group">
+                <label for="categories">Categorias</label>
+                <select class="form-control" id="categories" name="categories[]" multiple>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
             
             <div class="form-check form-switch mt-3">
                 <input class="form-check-input" type="checkbox" id="state" name="state" checked>
                 <label class="form-check-label" for="state">Estado</label>
             </div>
             <div>
-                <a href="{{ route('category.index') }}" class="btn btn-secondary mt-3">Cancelar</a>
+                <a href="{{ route('product.index') }}" class="btn btn-secondary mt-3">Cancelar</a>
                 
                 <button type="submit" class="btn btn-primary mt-3">Crear</button>
             </div>
@@ -42,6 +52,8 @@
 
 @section('scripts')
     <script>
-
+        $(document).ready(function() {
+            $('#categories').select2();
+        });
     </script>
 @endsection

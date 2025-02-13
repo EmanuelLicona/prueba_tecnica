@@ -4,8 +4,8 @@
 
     <div class="container mt-4">
         <section class="d-flex align-items-center justify-content-between">
-            <h1>Lista de categorias</h1>
-            <a href="{{ route('category.create') }}" class="btn btn-primary">Crear categoria</a>
+            <h1>Lista de Productos</h1>
+            <a href="{{ route('product.create') }}" class="btn btn-primary">Crear producto</a>
         </section>
         {{-- errores de validación --}}
         @if ($errors->any())
@@ -23,20 +23,23 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Descripción</th>
+                    <th>Categorias</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($categories as $category)
+                @foreach ($products as $product)
                     <tr>
-                        <td>{{ $category->name }}</td>
-                        <td>{{ $category->description }}</td>
-                        <td>{{ $category->state ? 'Activo' : 'Inactivo' }}</td>
+                        <td>{{ $product->name }}</td>
+                        <td>{{ $product->description }}</td>
+                        <td>{{ $product->categories->implode('name', ', ') }}</td>
+                        <td>{{ $product->state ? 'Activo' : 'Inactivo' }}</td>
                         <td>
-                            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary">Editar</a>
-                            <a href="{{ route('category.destroy', $category->id) }}" class="btn btn-danger">Eliminar</a>
+                            <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary">Editar</a>
+                            <a href="{{ route('product.destroy', $product->id) }}" class="btn btn-danger">Eliminar</a>
                         </td>
+                        
                     </tr>
                 @endforeach
             </tbody>

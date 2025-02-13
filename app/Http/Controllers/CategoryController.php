@@ -23,7 +23,7 @@ class CategoryController extends Controller
         // validaciones 
         $this->validate($request, [
             'name' => 'required|unique:categories,name',
-            'description' => 'required',
+            // 'description' => 'required',
             'state' => 'required',
         ]);
 
@@ -51,7 +51,7 @@ class CategoryController extends Controller
         // validaciones
         $this->validate($request, [
             'name' => 'required|unique:categories,name,'.$id,
-            'description' => 'required',
+            // 'description' => 'required',
             'state' => 'required',
         ]);
 
@@ -79,7 +79,12 @@ class CategoryController extends Controller
         if (!$category) {
             return redirect()->route('category.index')->withErrors(['name' => 'Categoria no encontrada']);
         }
-        $category->delete();
+
+        // $category->delete();
+        // Eliminado logico
+        $category->state = false;
+        $category->save();
+        
 
         return redirect()->route('category.index')->with('success', 'Categoria eliminada exitosamente');
     }

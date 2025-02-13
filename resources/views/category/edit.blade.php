@@ -2,7 +2,7 @@
 @section('title', 'Prueba tecnica')
 @section('content')
 
-    <div class="container">
+    <div class="container mt-4">
         <h1>Editar Categoria</h1>
         {{-- errores de validación --}}
         @if ($errors->any())

@@ -19,7 +19,7 @@ class UserController extends Controller
             $user->password = bcrypt('123456');
             $user->save();
         }
-        redirect()->route('login');
+        return redirect()->route('login');
     }
 
     public function executeLogin(Request $request)
