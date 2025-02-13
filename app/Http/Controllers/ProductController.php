@@ -40,7 +40,7 @@ class ProductController extends Controller
         $product->state = $request->state == 'on';
 
         $image = $request->file('image');
-        
+
         if ($image) {
             $imagenBase64 = base64_encode(file_get_contents($image));
             $product->image = $imagenBase64;
@@ -71,11 +71,11 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        // validaciones
+        // Validaciones
         $this->validate($request, [
             'name' => 'required|unique:products,name,' . $id,
             'description' => 'required',
-            'categories' => 'required',
+            'categories' => 'required|array',  
             'state' => 'required',
         ]);
 
@@ -84,12 +84,9 @@ class ProductController extends Controller
             return redirect()->route('product.index')->withErrors(['name' => 'Producto no encontrado']);
         }
 
-        // validar que no se repita el nombre
         if (Product::where('name', $request->name)->where('id', '!=', $id)->exists()) {
             return redirect()->route('product.edit', $id)->withErrors(['name' => 'Producto ya existe']);
         }
-
-        $product = Product::find($id);
 
         $product->name = $request->name;
         $product->description = $request->description;
@@ -103,24 +100,23 @@ class ProductController extends Controller
 
         $product->save();
 
-        // agregar nuevas categorias
-        foreach ($request->categories as $categoryId) {
-            $product->categories()->attach($categoryId);
-        }
+        // Obtener las categorías actuales del producto
+        $currentCategories = $product->categories->pluck('id')->toArray();
 
-        ///  categorias del producto
-        $categoriesProduct = CategoryProduct::where('product_id', $id)->get();
+        // Obtener las categorías que vienen en la request
+        $newCategories = $request->categories;
 
-        foreach ($categoriesProduct as $categoryProduct) {
-            if (!$request->categories->contains($categoryProduct->category_id)) {
-                $categoryProduct->state = false;
-                $categoryProduct->save();
-            }
-        }
+        // Eliminar las categorías que no están en la nueva lista
+        $categoriesToDetach = array_diff($currentCategories, $newCategories);
+        $product->categories()->detach($categoriesToDetach);
 
+        // Agregar las categorías nuevas que no están ya asociadas
+        $categoriesToAttach = array_diff($newCategories, $currentCategories);
+        $product->categories()->attach($categoriesToAttach);
 
         return redirect()->route('product.index')->with('success', 'Producto actualizado exitosamente');
     }
+
 
     public function destroy($id)
     {
@@ -132,5 +128,13 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()->route('product.index')->with('success', 'Producto eliminado exitosamente');
+    }
+
+    public function productByCategory(Request $request, $categoryId)
+    {
+        $category = Category::find($categoryId);
+        $products = $category->products;
+
+        return view('product.category', compact(['products', 'category']));
     }
 }

@@ -37,7 +37,7 @@
                         <td>{{ $product->categories->implode('name', ', ') }}</td>
                         <td>
                             @if ($product->image)
-                                <img src="data:image/jpeg;base64,{{ $product->image }}" class="" alt="Imagen"
+                                <img src="data:image/jpeg;base64,{{ $product->image }}" alt="Imagen"
                                     class="img-fluid rounded" width="100px">
                             @endif
                         </td>
