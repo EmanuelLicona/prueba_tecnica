@@ -51,7 +51,10 @@
 
             </div>
 
-            <button type="submit" class="btn btn-primary">Crear cuenta</button>
+            <div class="mt-3 d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Crear cuenta</button>
+                <a href="{{ route('login') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
 
 
         </form>
