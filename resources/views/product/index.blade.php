@@ -25,6 +25,8 @@
                     <th>Descripción</th>
                     <th>Categorias</th>
                     <th>Imagen</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
@@ -40,6 +42,8 @@
                                     class="img-fluid rounded" width="100px">
                             
                         </td>
+                        <td>{{ $product->price }}</td>
+                        <td>{{ $product->amount }}</td>
                         <td>
                             <span class="badge {{ $product->state ? 'bg-success' : 'bg-danger' }}">
                                 {{ $product->state ? 'ACTIVO' : 'INACTIVO' }}
