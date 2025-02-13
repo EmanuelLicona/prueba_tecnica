@@ -10,6 +10,13 @@
 
         <section class="d-flex gap-2 flex-wrap">
 
+            @if ($products->isEmpty())
+                <div class="alert alert-warning w-100">
+                    <h4>No hay productos en esta categoria</h4>
+                </div>
+
+            @endif
+
             @foreach ($products as $product)
                 <div class="card" style="width: 18rem;">
                     <img src="{{ $product->image ? ' data:image/jpeg;base64,' . $product->image : 'https://placehold.co/500' }}"

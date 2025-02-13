@@ -11,27 +11,20 @@ class UserController extends Controller
 {
     public function index()
     {
-        // si no existe un usuario crear un nuevo
-        if(User::count() == 0){
-            $user = new User();
-            $user->name = 'admin';
-            $user->email = 'admin@prueba.com';
-            $user->password = bcrypt('123456');
-            $user->save();
-        }
-        return redirect()->route('login');
+        $users = User::all();
+        return view('user.index', compact('users'));
     }
 
     public function executeLogin(Request $request)
     {
-      $credentials = $request->only('email', 'password', 'remember');
+        $credentials = $request->only('email', 'password', 'remember');
 
-      $remember = $request->remember ? 'true' : 'false';
+        $remember = $request->remember ? 'true' : 'false';
 
-      if (Auth::attempt($credentials, $remember)) {
-        return redirect()->route('index');
-      }
-      return redirect()->route('login')->withErrors(['error' => 'Usuario o contraseña incorrectos']);
+        if (Auth::attempt($credentials, $remember)) {
+            return redirect()->route('index');
+        }
+        return redirect()->route('login')->withErrors(['error' => 'Usuario o contraseña incorrectos']);
     }
 
 
@@ -46,25 +39,42 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-      return view('register');
+        return view('register');
     }
 
     public function executeRegister(Request $request)
     {
 
         // validaciones
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|unique:users,email',
-            'password' => 'required|min:6',
-            'password_confirmation' => 'required|same:password',
-        ]);
-        
+        $this->validate(
+            $request,
+            [
+                'name' => 'required',
+                'email' => 'required|unique:users,email',
+                'password' => 'required|min:6',
+                'password_confirmation' => 'required|same:password',
+            ],
+            // mensajes de error en español
+            [
+                'name.required' => 'El nombre es obligatorio',
+                'email.required' => 'El correo electrónico es obligatorio',
+                'email.unique' => 'El correo electrónico ya existe',
+                'password.required' => 'La contraseña es obligatoria',
+                'password.min' => 'La contraseña debe tener al menos 6 caracteres',
+                'password_confirmation.required' => 'La confirmación de la contraseña es obligatoria',
+                'password_confirmation.same' => 'Las contraseñas no coinciden',
+            ]
+        );
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('index');
+        }
 
         return redirect()->route('login')->with('success', 'Cuenta creada exitosamente');
     }

@@ -21,17 +21,20 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         // validaciones 
-        $this->validate($request, [
-            'name' => 'required|unique:categories,name',
-            // 'description' => 'required',
-            'state' => 'required',
-        ]);
-
-
-        // validar que no se repita el nombre
-        if (Category::where('name', $request->name)->exists()) {
-            return redirect()->route('category.index')->withErrors(['name' => 'Categoria ya existe']);
-        }
+        $this->validate(
+            $request,
+            [
+                'name' => 'required|unique:categories,name',
+                // 'description' => 'required',
+                'state' => 'required',
+            ]
+            // mensajes de error en español
+            ,
+            [
+                'name.unique' => 'El nombre de la categoria ya existe',
+                'state.required' => 'El estado es obligatorio',
+            ]
+        );
 
         $image = $request->file('image');
 
@@ -61,11 +64,20 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         // validaciones
-        $this->validate($request, [
-            'name' => 'required|unique:categories,name,'.$id,
-            // 'description' => 'required',
-            'state' => 'required',
-        ]);
+        $this->validate(
+            $request,
+            [
+                'name' => 'required|unique:categories,name,' . $id,
+                // 'description' => 'required',
+                'state' => 'required',
+            ]
+            // mensajes de error en español
+            ,
+            [
+                'name.unique' => 'El nombre de la categoria ya existe',
+                'state.required' => 'El estado es obligatorio',
+            ]
+        );
 
         $category = Category::find($id);
         if (!$category) {
@@ -104,7 +116,7 @@ class CategoryController extends Controller
         // Eliminado logico
         $category->state = false;
         $category->save();
-        
+
 
         return redirect()->route('category.index')->with('success', 'Categoria eliminada exitosamente');
     }

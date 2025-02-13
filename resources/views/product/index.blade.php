@@ -18,7 +18,7 @@
             </div>
         @endif
 
-        <table class="table table-striped table-bordered table-hover" id="tblCategories">
+        <table class="table table-striped table-bordered table-hover" id="tblProducts">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -36,10 +36,9 @@
                         <td>{{ $product->description }}</td>
                         <td>{{ $product->categories->implode('name', ', ') }}</td>
                         <td>
-                            @if ($product->image)
-                                <img src="data:image/jpeg;base64,{{ $product->image }}" alt="Imagen"
+                                <img src="{{ $product->image ? 'data:image/jpeg;base64,' . $product->image : 'https://placehold.co/500' }}"
                                     class="img-fluid rounded" width="100px">
-                            @endif
+                            
                         </td>
                         <td>
                             <span class="badge {{ $product->state ? 'bg-success' : 'bg-danger' }}">
@@ -63,7 +62,7 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            $('#tblCategories').DataTable({
+            $('#tblProducts').DataTable({
                 "language": {
                     // "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
                     // uno por uno 

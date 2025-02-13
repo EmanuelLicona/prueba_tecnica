@@ -27,12 +27,27 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // validaciones 
-        $this->validate($request, [
-            'name' => 'required|unique:products,name',
-            'description' => 'required',
-            'categories' => 'required',
-            'state' => 'required',
-        ]);
+        $this->validate(
+            $request,
+            [
+                'name' => 'required|unique:products,name',
+                'description' => 'required',
+                'categories' => 'required',
+                'price' => 'required|numeric',
+                'amount' => 'required|numeric',
+                'state' => 'required',
+            ]
+            // mensajes de error en español
+            ,
+            [
+                'name.unique' => 'El nombre del producto ya existe',
+                'categories.required' => 'Debe seleccionar al menos una categoría',
+                'price.required' => 'El precio es obligatorio',
+                'amount.required' => 'La cantidad es obligatoria',
+                'state.required' => 'El estado es obligatorio',
+                'description.required' => 'La descripción es obligatoria',
+            ]
+        );
 
         $product = new Product();
         $product->name = $request->name;
@@ -72,12 +87,27 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         // Validaciones
-        $this->validate($request, [
-            'name' => 'required|unique:products,name,' . $id,
-            'description' => 'required',
-            'categories' => 'required|array',  
-            'state' => 'required',
-        ]);
+        $this->validate(
+            $request,
+            [
+                'name' => 'required|unique:products,name,' . $id,
+                'description' => 'required',
+                'categories' => 'required|array',
+                'state' => 'required',
+                'price' => 'required|numeric',
+                'amount' => 'required|numeric',
+            ]
+            // mensajes de error en español
+            ,
+            [
+                'name.unique' => 'El nombre del producto ya existe',
+                'categories.required' => 'Debe seleccionar al menos una categoría',
+                'price.required' => 'El precio es obligatorio',
+                'amount.required' => 'La cantidad es obligatoria',
+                'state.required' => 'El estado es obligatorio',
+                'description.required' => 'La descripción es obligatoria',
+            ]
+        );
 
         $product = Product::find($id);
         if (!$product) {

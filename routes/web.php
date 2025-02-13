@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
   Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
   Route::get('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
   Route::get('/product/category/{categoryId}', [ProductController::class, 'productByCategory'])->name('product.category');
+
+  Route::get('/user', [UserController::class, 'index'])->name('user.index');
 });
 
 

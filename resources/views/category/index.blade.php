@@ -17,7 +17,7 @@
                 </ul>
             </div>
         @endif
-        
+
         <table class="table table-striped table-bordered table-hover" id="tblCategories">
             <thead>
                 <tr>
@@ -34,9 +34,8 @@
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->description }}</td>
                         <td>
-                            @if ($category->image)
-                                <img src="data:image/jpeg;base64,{{ $category->image }}" class="img-fluid rounded" alt="Imagen" width="100px">
-                            @endif
+                            <img src="{{ $category->image ? 'data:image/jpeg;base64,' . $category->image : 'https://placehold.co/500' }}"
+                                class="img-fluid rounded" alt="Imagen" width="100px">
                         </td>
                         <td>
                             <span class="badge {{ $category->state ? 'bg-success' : 'bg-danger' }}">
@@ -44,6 +43,8 @@
                             </span>
                         </td>
                         <td>
+                            <a href="{{ route('product.category', $category->id) }}" class="btn btn-warning">Ver
+                                productos({{ $category->products->where('state', true)->count() }})</a>
                             <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary">Editar</a>
                             <a href="{{ route('category.destroy', $category->id) }}" class="btn btn-danger">Eliminar</a>
                         </td>
@@ -85,8 +86,8 @@
                 "info": true,
                 "autoWidth": false,
                 "scrollX": true,
-                
-                
+
+
             });
         });
     </script>

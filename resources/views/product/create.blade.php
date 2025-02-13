@@ -24,6 +24,19 @@
                     <input type="text" class="form-control" id="name" name="name" required
                         value="{{ old('name') }}">
                 </div>
+
+                <div class="form-group">
+                    <label for="price">Precio</label>
+                    <input type="number" class="form-control" id="price" name="price" required
+                        value="{{ old('price') }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Cantidad</label>
+                    <input type="number" class="form-control" id="amount" name="amount" required
+                        value="{{ old('amount') }}">
+                </div>
+
                 <div class="form-group">
                     <label for="description">Descripción</label>
                     <input type="text" class="form-control" id="description" name="description"
@@ -49,7 +62,7 @@
                 <div class="form-group">
                     <label for="image">Imagen</label>
                     <input type="file" class="form-control" id="image-input" name="image">
-                </div>  
+                </div>
 
                 <div>
                     <a href="{{ route('product.index') }}" class="btn btn-secondary mt-3">Cancelar</a>

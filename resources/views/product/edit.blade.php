@@ -31,6 +31,18 @@
                         value="{{ $product->description }}">
                 </div>
 
+                <div class="form-group">
+                    <label for="price">Precio</label>
+                    <input type="number" class="form-control" id="price" name="price" required
+                        value="{{ $product->price }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Cantidad</label>
+                    <input type="number" class="form-control" id="amount" name="amount" required
+                        value="{{ $product->amount }}">
+                </div>  
+
                 {{-- categorias --}}
                 <div class="form-group">
                     <label for="categories">Categorias</label>
