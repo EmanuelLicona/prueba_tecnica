@@ -30,13 +30,13 @@
                 <input type="password" class="form-control" id="inputPassword" name="password" required>
             </div>
 
-            {{-- remember me --}}
-            <div class="form-check">
+  
+            {{-- <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="remember" id="remember">
                 <label class="form-check-label" for="remember">
                     Recordarme
                 </label>
-            </div>
+            </div> --}}
             <button type="submit" class="btn btn-primary">Iniciar sesión</button>
 
             <div class="text-center mt-3">
