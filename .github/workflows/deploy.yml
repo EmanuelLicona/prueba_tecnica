@@ -21,14 +21,14 @@ jobs:
       - name: Install Composer Dependencies
         run: composer update && composer install --optimize-autoloader --no-dev --no-progress --no-interaction --prefer-dist # && composer update
 
-      - name: Synchronize Files To Server
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SOURCE: "."
-          REMOTE_HOST: ${{ secrets.VPS_HOST }}
-          REMOTE_USER: ${{ secrets.VPS_USER }}
-          TARGET: "/var/www/html/prueba_tecnica"
+      # - name: Synchronize Files To Server
+      #   uses: easingthemes/ssh-deploy@v2.1.5
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     SOURCE: "."
+      #     REMOTE_HOST: ${{ secrets.VPS_HOST }}
+      #     REMOTE_USER: ${{ secrets.VPS_USER }}
+      #     TARGET: "/var/www/html/prueba_tecnica"
 
       - name: Run Remote/Artisan Commands
         uses: appleboy/ssh-action@v0.1.6
