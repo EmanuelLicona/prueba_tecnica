@@ -51,6 +51,8 @@ class ProductController extends Controller
 
         $product = new Product();
         $product->name = $request->name;
+        $product->price = $request->price;
+        $product->amount = $request->amount;
         $product->description = $request->description;
         $product->state = $request->state == 'on';
 
@@ -120,6 +122,8 @@ class ProductController extends Controller
 
         $product->name = $request->name;
         $product->description = $request->description;
+        $product->price = $request->price;
+        $product->amount = $request->amount;
         $product->state = $request->state == 'on';
 
         $image = $request->file('image');
