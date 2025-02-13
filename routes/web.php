@@ -8,6 +8,8 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/login', 'login')->name('login');
+Route::get('/register', [UserController::class, 'register'])->name('register');
+Route::post('/executeRegister', [UserController::class, 'executeRegister'])->name('executeRegister');
 
 Route::middleware('auth')->group(function () {
   Route::get('logout', [UserController::class, 'logout'])->name('logout');
