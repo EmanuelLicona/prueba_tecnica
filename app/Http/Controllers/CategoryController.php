@@ -83,12 +83,7 @@ class CategoryController extends Controller
         if (!$category) {
             return redirect()->route('category.index')->withErrors(['name' => 'Categoria no encontrada']);
         }
-
-        // validar que no se repita el nombre
-        if (Category::where('name', $request->name)->where('id', '!=', $id)->exists()) {
-            return redirect()->route('category.edit', $id)->withErrors(['name' => 'Categoria ya existe']);
-        }
-
+        
         $category->name = $request->name;
         $category->description = $request->description;
         $category->state = $request->state == 'on';

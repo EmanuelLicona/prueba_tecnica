@@ -17,11 +17,11 @@ class UserController extends Controller
 
     public function executeLogin(Request $request)
     {
-        $credentials = $request->only('email', 'password', 'remember');
+        $credentials = $request->only('email', 'password');
 
-        $remember = $request->remember ? 'true' : 'false';
+        // $remember = $request->remember ? 'true' : 'false';
 
-        if (Auth::attempt($credentials, $remember)) {
+        if (Auth::attempt($credentials)) {
             return redirect()->route('index');
         }
         return redirect()->route('login')->withErrors(['error' => 'Usuario o contraseña incorrectos']);

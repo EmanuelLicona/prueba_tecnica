@@ -30,8 +30,8 @@ class ProductController extends Controller
         $this->validate(
             $request,
             [
-                'name' => 'required|unique:products,name',
-                'description' => 'required',
+                'name' => 'required',
+                // 'description' => 'required',
                 'categories' => 'required',
                 'price' => 'required|numeric',
                 'amount' => 'required|numeric',
@@ -92,8 +92,8 @@ class ProductController extends Controller
         $this->validate(
             $request,
             [
-                'name' => 'required|unique:products,name,' . $id,
-                'description' => 'required',
+                'name' => 'required' . $id,
+                // 'description' => 'required',
                 'categories' => 'required|array',
                 'state' => 'required',
                 'price' => 'required|numeric',
