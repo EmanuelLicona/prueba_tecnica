@@ -23,8 +23,8 @@
                         class="card-img-top" width="150px" height="150px" alt="Imagen">
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
-                        <p class="card-text">{{ $product->price }}</p>
-                        <p class="card-text">{{ $product->amount }}</p>
+                        <p class="card-text"> Precio: {{ $product->price }}</p>
+                        <p class="card-text"> Cantidad: {{ $product->amount }}</p>
                         <p class="card-text">{{ $product->description ? $product->description : 'No hay descripción' }}</p>
                     </div>
                 </div>
