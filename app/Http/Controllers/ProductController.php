@@ -34,26 +34,26 @@ class ProductController extends Controller
             'state' => 'required',
         ]);
 
-        // transaction
-        DB::transaction(function () use ($request) {
-           try {
-                $product = new Product();
-                $product->name = $request->name;
-                $product->description = $request->description;
-                $product->state = $request->state == 'on';
-                $product->save();
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->state = $request->state == 'on';
 
-                // agregar categorias
-                foreach ($request->categories as $categoryId) {
-                    $product->categories()->attach($categoryId);
-                }
+        $image = $request->file('image');
+        
+        if ($image) {
+            $imagenBase64 = base64_encode(file_get_contents($image));
+            $product->image = $imagenBase64;
+        }
 
-                return redirect()->route('product.index')->with('success', 'Producto creado exitosamente');
-            } catch (\Exception $e) {
-                return redirect()->route('product.index')->withErrors(['name' => 'Producto no creado']);
-            }   
-        });
+        $product->save();
 
+        // agregar categorias
+        foreach ($request->categories as $categoryId) {
+            $product->categories()->attach($categoryId);
+        }
+
+        return redirect()->route('product.index')->with('success', 'Producto creado exitosamente');
     }
 
     public function edit($id)
@@ -73,7 +73,7 @@ class ProductController extends Controller
     {
         // validaciones
         $this->validate($request, [
-            'name' => 'required|unique:products,name,'.$id,
+            'name' => 'required|unique:products,name,' . $id,
             'description' => 'required',
             'categories' => 'required',
             'state' => 'required',
@@ -88,44 +88,42 @@ class ProductController extends Controller
         if (Product::where('name', $request->name)->where('id', '!=', $id)->exists()) {
             return redirect()->route('product.edit', $id)->withErrors(['name' => 'Producto ya existe']);
         }
-        
-        //transaction
-        DB::transaction(function () use ($request, $id) {
-            try {
-                $product = Product::find($id);
 
-                $product->name = $request->name;
-                $product->description = $request->description;
-                $product->state = $request->state == 'on';
-                $product->save();
+        $product = Product::find($id);
 
-                // agregar nuevas categorias
-                foreach ($request->categories as $categoryId) {
-                    $product->categories()->attach($categoryId);
-                }
-               
-                ///  categorias del producto
-                $categoriesProduct = CategoryProduct::where('product_id', $id)->get();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->state = $request->state == 'on';
 
-                foreach ($categoriesProduct as $categoryProduct) {
-                    if (!$request->categories->contains($categoryProduct->category_id)) {
-                        $categoryProduct->state = false;
-                        $categoryProduct->save();
-                    }
-                }
+        $image = $request->file('image');
+        if ($image) {
+            $imagenBase64 = base64_encode(file_get_contents($image));
+            $product->image = $imagenBase64;
+        }
+
+        $product->save();
+
+        // agregar nuevas categorias
+        foreach ($request->categories as $categoryId) {
+            $product->categories()->attach($categoryId);
+        }
+
+        ///  categorias del producto
+        $categoriesProduct = CategoryProduct::where('product_id', $id)->get();
+
+        foreach ($categoriesProduct as $categoryProduct) {
+            if (!$request->categories->contains($categoryProduct->category_id)) {
+                $categoryProduct->state = false;
+                $categoryProduct->save();
+            }
+        }
 
 
-                return redirect()->route('product.index')->with('success', 'Producto actualizado exitosamente');
-            } catch (\Exception $e) {
-                return redirect()->route('product.index')->withErrors(['name' => 'Producto no actualizado']);
-            }   
-        });
-
-        return redirect()->route('product.index');
+        return redirect()->route('product.index')->with('success', 'Producto actualizado exitosamente');
     }
 
     public function destroy($id)
-    {   
+    {
         $product = Product::find($id);
         if (!$product) {
             return redirect()->route('product.index')->withErrors(['name' => 'Producto no encontrado']);
@@ -135,5 +133,4 @@ class ProductController extends Controller
 
         return redirect()->route('product.index')->with('success', 'Producto eliminado exitosamente');
     }
-
 }
