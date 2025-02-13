@@ -19,7 +19,7 @@ jobs:
           php-version: 8.1
 
       - name: Install Composer Dependencies
-        run: composer install --optimize-autoloader --no-dev --no-progress --no-interaction --prefer-dist # && composer update
+        run: composer update && composer install --optimize-autoloader --no-dev --no-progress --no-interaction --prefer-dist # && composer update
 
       - name: Synchronize Files To Server
         uses: easingthemes/ssh-deploy@v2.1.5
