@@ -15,37 +15,59 @@
             </div>
         @endif
 
-        <form action="{{ route('product.store') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="name">Nombre</label>
-                <input type="text" class="form-control" id="name" name="name" required value="{{ old('name') }}">
-            </div>
-            <div class="form-group">
-                <label for="description">Descripción</label>
-                <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}">
-            </div>
+        <section class="row">
 
-            {{-- categorias --}}
-            <div class="form-group">
-                <label for="categories">Categorias</label>
-                <select class="form-control" id="categories" name="categories[]" multiple>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
+            <form class="col-md-9" action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" class="form-control" id="name" name="name" required
+                        value="{{ old('name') }}">
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <input type="text" class="form-control" id="description" name="description"
+                        value="{{ old('description') }}">
+                </div>
+
+                {{-- categorias --}}
+                <div class="form-group">
+                    <label for="categories">Categorias</label>
+                    <select class="form-control" id="categories" name="categories[]" multiple required>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-check form-switch mt-3">
+                    <input class="form-check-input" type="checkbox" id="state" name="state" checked>
+                    <label class="form-check-label" for="state">Estado</label>
+                </div>
+
+                {{-- image --}}
+                <div class="form-group">
+                    <label for="image">Imagen</label>
+                    <input type="file" class="form-control" id="image-input" name="image">
+                </div>  
+
+                <div>
+                    <a href="{{ route('product.index') }}" class="btn btn-secondary mt-3">Cancelar</a>
+                    <button type="submit" class="btn btn-primary mt-3">Crear</button>
+                </div>
+            </form>
+
+            <div class="col-md-3 d-none" id="image-container">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Imagen</h5>
+                        <p class="card-text">
+                            <img src="https://placehold.co/150" id="image" class="img-fluid rounded" alt="Imagen">
+                        </p>
+                    </div>
+                </div>
             </div>
-            
-            <div class="form-check form-switch mt-3">
-                <input class="form-check-input" type="checkbox" id="state" name="state" checked>
-                <label class="form-check-label" for="state">Estado</label>
-            </div>
-            <div>
-                <a href="{{ route('product.index') }}" class="btn btn-secondary mt-3">Cancelar</a>
-                
-                <button type="submit" class="btn btn-primary mt-3">Crear</button>
-            </div>
-        </form>
+        </section>
     </div>
 
 @endsection
@@ -54,6 +76,21 @@
     <script>
         $(document).ready(function() {
             $('#categories').select2();
+
+            $('#image-input').change(function() {
+                var reader = new FileReader();
+                reader.readAsDataURL(this.files[0]);
+
+                reader.onload = function(event) {
+                    $('#image').attr('src', event.target
+                        .result);
+                    $('#image-container').removeClass('d-none');
+                };
+
+                reader.onerror = function() {
+                    console.error('Error al cargar la imagen.');
+                };
+            });
         });
     </script>
 @endsection

@@ -9,7 +9,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::where('state', 1)->get();
         return view('category.index', compact('categories'));
     }
 
@@ -27,11 +27,23 @@ class CategoryController extends Controller
             'state' => 'required',
         ]);
 
-        $category = new Category();
 
+        // validar que no se repita el nombre
+        if (Category::where('name', $request->name)->exists()) {
+            return redirect()->route('category.index')->withErrors(['name' => 'Categoria ya existe']);
+        }
+
+        $image = $request->file('image');
+
+        $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
         $category->state = $request->state == 'on';
+
+        if ($image) {
+            $imagenBase64 = base64_encode(file_get_contents($image));
+            $category->image = $imagenBase64;
+        }
         $category->save();
 
         return redirect()->route('category.index')->with('success', 'Categoria creada exitosamente');
@@ -68,6 +80,14 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->state = $request->state == 'on';
+
+        $image = $request->file('image');
+
+        if ($image) {
+            $imagenBase64 = base64_encode(file_get_contents($image));
+            $category->image = $imagenBase64;
+        }
+
         $category->save();
 
         return redirect()->route('category.index');

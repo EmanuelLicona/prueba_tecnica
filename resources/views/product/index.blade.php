@@ -17,13 +17,14 @@
                 </ul>
             </div>
         @endif
-        
+
         <table class="table table-striped table-bordered table-hover" id="tblCategories">
             <thead>
                 <tr>
                     <th>Nombre</th>
                     <th>Descripción</th>
                     <th>Categorias</th>
+                    <th>Imagen</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
@@ -34,12 +35,22 @@
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->description }}</td>
                         <td>{{ $product->categories->implode('name', ', ') }}</td>
-                        <td>{{ $product->state ? 'Activo' : 'Inactivo' }}</td>
+                        <td>
+                            @if ($product->image)
+                                <img src="data:image/jpeg;base64,{{ $product->image }}" alt="Imagen"
+                                    class="img-fluid rounded" width="100px">
+                            @endif
+                        </td>
+                        <td>
+                            <span class="badge {{ $product->state ? 'bg-success' : 'bg-danger' }}">
+                                {{ $product->state ? 'ACTIVO' : 'INACTIVO' }}
+                            </span>
+                        </td>
                         <td>
                             <a href="{{ route('product.edit', $product->id) }}" class="btn btn-primary">Editar</a>
                             <a href="{{ route('product.destroy', $product->id) }}" class="btn btn-danger">Eliminar</a>
                         </td>
-                        
+
                     </tr>
                 @endforeach
             </tbody>
@@ -83,7 +94,7 @@
                 "order": [
                     [0, "asc"]
                 ]
-                
+
             });
         });
     </script>

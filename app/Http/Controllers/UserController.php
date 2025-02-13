@@ -43,4 +43,29 @@ class UserController extends Controller
 
         return redirect()->route('login');
     }
+
+    public function register(Request $request)
+    {
+      return view('register');
+    }
+
+    public function executeRegister(Request $request)
+    {
+
+        // validaciones
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required|same:password',
+        ]);
+        
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return redirect()->route('login')->with('success', 'Cuenta creada exitosamente');
+    }
 }

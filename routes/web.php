@@ -3,14 +3,18 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
-use GuzzleHttp\Middleware;
+use App\Http\Controllers\HomeController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::view('/login', 'login')->name('login');
+Route::get('/register', [UserController::class, 'register'])->name('register');
+Route::post('/executeRegister', [UserController::class, 'executeRegister'])->name('executeRegister');
 
-// proteger todas las rutas con el middleware
 Route::middleware('auth')->group(function () {
-  Route::view('/', 'index')->name('index');
+  Route::get('logout', [UserController::class, 'logout'])->name('logout');
+
+  Route::get('/', [HomeController::class, 'index'])->name('index');
 
   Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
   Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
@@ -20,11 +24,12 @@ Route::middleware('auth')->group(function () {
   Route::get('/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
   Route::get('/product', [ProductController::class, 'index'])->name('product.index');
-  Route::post('/product', [ProductController::class, 'store'])->name('product.store');
   Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+  Route::post('/product', [ProductController::class, 'store'])->name('product.store');
   Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
   Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
   Route::get('/product/delete/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+  Route::get('/product/category/{categoryId}', [ProductController::class, 'productByCategory'])->name('product.category');
 });
 
 

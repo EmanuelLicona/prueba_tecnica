@@ -23,6 +23,7 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Descripción</th>
+                    <th>Imagen</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
@@ -32,7 +33,16 @@
                     <tr>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->description }}</td>
-                        <td>{{ $category->state ? 'Activo' : 'Inactivo' }}</td>
+                        <td>
+                            @if ($category->image)
+                                <img src="data:image/jpeg;base64,{{ $category->image }}" class="img-fluid rounded" alt="Imagen" width="100px">
+                            @endif
+                        </td>
+                        <td>
+                            <span class="badge {{ $category->state ? 'bg-success' : 'bg-danger' }}">
+                                {{ $category->state ? 'ACTIVO' : 'INACTIVO' }}
+                            </span>
+                        </td>
                         <td>
                             <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary">Editar</a>
                             <a href="{{ route('category.destroy', $category->id) }}" class="btn btn-danger">Eliminar</a>
@@ -51,8 +61,6 @@
         $(document).ready(function() {
             $('#tblCategories').DataTable({
                 "language": {
-                    // "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
-                    // uno por uno 
                     "processing": "Procesando...",
                     "search": "Buscar:",
                     "lengthMenu": "Mostrar _MENU_ registros",
@@ -77,9 +85,7 @@
                 "info": true,
                 "autoWidth": false,
                 "scrollX": true,
-                "order": [
-                    [0, "asc"]
-                ]
+                
                 
             });
         });
