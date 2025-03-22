@@ -40,7 +40,7 @@
             <button type="submit" class="btn btn-primary">Iniciar sesión</button>
 
             <div class="text-center mt-3">
-                <a href="{{ route('register') }}" class="text-decoration-none">¿No tienes cuenta? Registrate</a>
+                {{-- <a href="{{ route('register') }}" class="text-decoration-none">¿No tienes cuenta? Registrate</a> --}}
             </div>
         </form>
 

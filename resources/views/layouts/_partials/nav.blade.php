@@ -9,14 +9,14 @@
             <div class="navbar-nav">
 
                 <a class="nav-link  {{ Route::currentRouteName() === 'index' ? 'active' : '' }}"
-                    href="{{ route('index') }}">Inicio</a>
-                <a class="nav-link  {{ Route::currentRouteName() === 'product.index' ? 'active' : '' }}"
-                    href="{{ route('product.index') }}">Productos</a>
-                <a class="nav-link  {{ Route::currentRouteName() === 'category.index' ? 'active' : '' }}"
-                    href="{{ route('category.index') }}">Categorias</a>
+                    href="{{ route('index') }}">Home</a>
 
                 <a class="nav-link  {{ Route::currentRouteName() === 'user.index' ? 'active' : '' }}"
-                    href="{{ route('user.index') }}">Usuarios</a>
+                    href="{{ route('register.index') }}">Records</a>
+
+
+                <a class="nav-link  {{ Route::currentRouteName() === 'user.index' ? 'active' : '' }}"
+                    href="{{ route('user.index') }}">Users</a>
 
 
 
