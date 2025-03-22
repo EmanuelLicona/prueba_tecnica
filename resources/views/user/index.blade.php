@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('title', 'Prueba tecnica')
+@section('title', 'Register records')
 @section('content')
 
     <div class="container mt-4">

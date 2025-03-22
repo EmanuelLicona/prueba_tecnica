@@ -1,10 +1,10 @@
 @extends('layouts.base')
-@section('title', 'Prueba tecnica')
+@section('title', 'Register records')
 @section('content')
 
     <div class="container mt-4">
         <section class="d-flex align-items-center justify-content-between">
-            <h1>Lista de registros</h1>
+            <h1>List of registered records</h1>
             {{-- <a href="{{ route('product.create') }}" class="btn btn-primary">Crear producto</a> --}}
         </section>
 
@@ -23,13 +23,13 @@
         <table class="table table-striped table-bordered table-hover" id="tblRegistros">
             <thead>
                 <tr>
-                    <th>Nombre</th>
-                    <th>Fecha de nacimiento</th>
-                    <th>Pertenece a una iglesia</th>
-                    <th>Nombre de la iglesia</th>
-                    <th>Condicion medica o alergia</th>
-                    <th>Persona que desee inscribir</th>
-                    <th>Acciones</th>
+                    <th>Name</th>
+                    <th>Birthday</th>
+                    <th>belongs to a church</th>
+                    <th>Church name</th>
+                    <th>Do you suffer from any illness or allergy?</th>
+                    <th>person who wishes to register</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>

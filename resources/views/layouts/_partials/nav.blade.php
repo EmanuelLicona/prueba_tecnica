@@ -21,7 +21,7 @@
 
 
                 @if (Auth::check())
-                    <a class="nav-link" href="{{ route('logout') }}">Cerrar sesión</a>
+                    <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                 @endif
             </div>
         </div>

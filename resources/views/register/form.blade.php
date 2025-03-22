@@ -1,14 +1,15 @@
-@extends('layouts.auth')
+@extends('layouts.form')
 
-@section('title', 'Prueba tecnica')
+@section('title', 'Register records')
 @section('content')
-    <section class="flex flex-col justify-between align-items-center ">
+    <section class="flex flex-col justify-between align-items-center">
 
-        <form class="row mx-auto border" style="max-width: 800px; margin-top: 50px; padding: 20px;" method="POST" action="{{ route('register.store') }}">
+        <form class="row mx-auto border bg-white rounded" style="max-width: 800px; margin-top: 50px; padding: 20px;" method="POST"
+            action="{{ route('register.store') }}">
 
             @csrf
 
-            <h1 class="text-center">Formulario de registro</h1>
+            <h1 class="text-center">Registration Form</h1>
 
             @if (session('success'))
                 <div class="alert alert-success d-flex flex-col justify-content-between align-items-center" role="alert">
@@ -34,24 +35,24 @@
                         @endforeach
                     </ul>
                 </div>
-                
+
             @endif
 
             <div class="col-md-6 mt-3">
-                <label for="inputNombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+                <label for="inputNombre" class="form-label">Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="inputNombre" name="nombre" value="{{ old('nombre') }}"
                     required>
             </div>
 
             <div class="col-md-6 mt-3">
-                <label for="inputNacimiento" class="form-label">Fecha de nacimiento <span class="text-danger">*</span>
+                <label for="inputNacimiento" class="form-label">Birthday <span class="text-danger">*</span>
                 </label>
                 <input type="date" class="form-control" id="inputNacimiento" name="fecha_nacimiento"
                     value="{{ old('fecha_nacimiento') }}" required>
             </div>
 
             <div class="col-md-4 mt-3">
-                <label for="inputPerteneceIglesia" class="form-label">¿Pertenece a una iglesia? <span
+                <label for="inputPerteneceIglesia" class="form-label">Belongs to a church? <span
                         class="text-danger">*</span></label>
                 <select class="form-control" id="inputPerteneceIglesia" name="pertenece_iglesia">
                     <option value="0" @if (old('pertenece_iglesia') == 0) selected @endif>No</option>
@@ -60,15 +61,14 @@
             </div>
 
             <div class="col-md-8 mt-3">
-                <label for="inputNombreIglesia" style="display: none;" id="labelNombreIglesia" class="form-label">Nombre de
-                    la iglesia <span class="text-danger">*</span></label>
+                <label for="inputNombreIglesia" style="display: none;" id="labelNombreIglesia" class="form-label">Church
+                    name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="inputNombreIglesia" name="nombre_iglesia"
-                    style="display: none;" value="{{ old('nombre_iglesia') }}" >
+                    style="display: none;" value="{{ old('nombre_iglesia') }}">
             </div>
 
             <div class="col-md-12 mt-3">
-                <label for="inputPadeceCondicionMedica" class="form-label">¿Padece alguna condicion medica o
-                    alergia?</label>
+                <label for="inputPadeceCondicionMedica" class="form-label">Do you suffer from any illness or allergy??</label>
                 <textarea class="form-control" id="inputPadeceCondicionMedica" name="padece_condicion_medica"
                     value="{{ old('padece_condicion_medica') }}"></textarea>
             </div>
@@ -76,13 +76,13 @@
 
 
             <div class="col-md-12 mt-3">
-                <label for="inputSymptoms" class="form-label">¿Persona que desee inscribir? </label>
+                <label for="inputSymptoms" class="form-label">Person who wishes to register? </label>
                 <input type="text" class="form-control" id="inputSymptoms" name="symptoms" value="{{ old('symptoms') }}">
             </div>
 
 
             <div class="col-md-12 mt-3">
-                <button type="submit" class="btn btn-primary">Registrarme</button>
+                <button type="submit" class="btn btn-primary">Register</button>
             </div>
 
 
