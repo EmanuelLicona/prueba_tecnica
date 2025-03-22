@@ -24,7 +24,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             return redirect()->route('index');
         }
-        return redirect()->route('login')->withErrors(['error' => 'Usuario o contraseña incorrectos']);
+        return redirect()->route('login')->withErrors(['error' => 'Invalid email or password']);
     }
 
 
@@ -54,16 +54,6 @@ class UserController extends Controller
                 'password' => 'required|min:6',
                 'password_confirmation' => 'required|same:password',
             ],
-            // mensajes de error en español
-            [
-                'name.required' => 'El nombre es obligatorio',
-                'email.required' => 'El correo electrónico es obligatorio',
-                'email.unique' => 'El correo electrónico ya existe',
-                'password.required' => 'La contraseña es obligatoria',
-                'password.min' => 'La contraseña debe tener al menos 6 caracteres',
-                'password_confirmation.required' => 'La confirmación de la contraseña es obligatoria',
-                'password_confirmation.same' => 'Las contraseñas no coinciden',
-            ]
         );
 
         $user = new User();

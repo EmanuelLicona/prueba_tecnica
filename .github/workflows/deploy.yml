@@ -40,3 +40,5 @@ jobs:
             cd /var/www/html/prueba_tecnica
             php artisan migrate --force
             php artisan optimize
+            sudo chown -R www-data:www-data storage
+            sudo chmod -R 777 storage
