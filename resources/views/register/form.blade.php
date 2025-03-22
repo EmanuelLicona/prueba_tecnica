@@ -76,8 +76,8 @@
 
 
             <div class="col-md-12 mt-3">
-                <label for="inputSymptoms" class="form-label">Person who wishes to register? </label>
-                <input type="text" class="form-control" id="inputSymptoms" name="symptoms" value="{{ old('symptoms') }}">
+                <label for="persona_invitada" class="form-label">Person who wishes to register? </label>
+                <input type="text" class="form-control" id="persona_invitada" name="persona_invitada" value="{{ old('symptoms') }}">
             </div>
 
 

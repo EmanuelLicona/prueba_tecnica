@@ -35,7 +35,7 @@
             <tbody>
                 @foreach ($registrations as $registration)
                     <tr>
-                       
+
                         <td>{{ $registration->nombre }}</td>
                         <td>{{ $registration->fecha_nacimiento }}</td>
                         <td>
@@ -48,13 +48,15 @@
                         <td>{{ $registration->persona_invitada }}</td>
                         <td class="d-flex justify-content-end">
                             <a href="{{ route('register.edit', $registration->id) }}" class="btn btn-primary">Editar</a>
-                            
-                            <form id="form_destroy_{{$registration->id}}" style="opacity: 0" action="{{ route('register.destroy', $registration->id) }}" method="POST">
+
+                            <form id="form_destroy_{{ $registration->id }}" style="opacity: 0"
+                                action="{{ route('register.destroy', $registration->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                             </form>
-                            
-                            <button form="form_destroy_{{$registration->id}}" type="submit" class="btn btn-danger">Eliminar</button>
+
+                            <button form="form_destroy_{{ $registration->id }}" type="submit"
+                                class="btn btn-danger">Eliminar</button>
                         </td>
 
                     </tr>
@@ -70,6 +72,10 @@
     <script>
         $(document).ready(function() {
             $('#tblRegistros').DataTable({
+                "buttons": [
+                    'excel', 'pdf', 'print'
+                ],
+
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,

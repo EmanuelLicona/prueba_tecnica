@@ -37,9 +37,9 @@ class RegisterController extends Controller
         $registration->nombre = $request->nombre;
         $registration->fecha_nacimiento = $request->fecha_nacimiento;
         $registration->pertenece_iglesia = $request->pertenece_iglesia;
-        // $registration->nombre_iglesia = $request->nombre_iglesia;
-        // $registration->padece_condicion_medica = $request->padece_condicion_medica;
-        // $registration->persona_invitada = $request->persona_invitada;
+        $registration->nombre_iglesia = $request->nombre_iglesia;
+        $registration->padece_condicion_medica = $request->padece_condicion_medica;
+        $registration->persona_invitada = $request->persona_invitada;
         $registration->estado = true;
         $registration->save();
 

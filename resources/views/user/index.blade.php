@@ -36,24 +36,7 @@
     <script>
         $(document).ready(function() {
             $('#tblUsers').DataTable({
-                "language": {
-                    "processing": "Procesando...",
-                    "search": "Buscar:",
-                    "lengthMenu": "Mostrar _MENU_ registros",
-                    "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "infoEmpty": "No hay registros que mostrar",
-                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "infoPostFix": "",
-                    "loadingRecords": "Cargando...",
-                    "zeroRecords": "No se encontraron registros",
-                    "emptyTable": "No hay datos disponibles en esta tabla",
-                    "paginate": {
-                        "first": "Primero",
-                        "previous": "Anterior",
-                        "next": "Siguiente",
-                        "last": "Último"
-                    },
-                },
+                
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,
