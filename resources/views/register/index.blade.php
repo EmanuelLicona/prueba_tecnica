@@ -24,13 +24,14 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Birthday</th>
-                    <th>Phone</th>
-                    <th>email</th>
-                    <th>belongs to a church</th>
-                    <th>Church name</th>
+                    {{-- <th>Birthday</th> --}}
+                    <th>Age</th>
+                    {{-- <th>Phone</th> --}}
+                    {{-- <th>email</th> --}}
+                    {{-- <th>belongs to a church</th> --}}
+                    {{-- <th>Church name</th> --}}
                     <th>Do you suffer from any illness or allergy?</th>
-                    <th>person who wishes to register</th>
+                    {{-- <th>person who wishes to register</th> --}}
                     <th></th>
                 </tr>
             </thead>
@@ -39,19 +40,21 @@
                     <tr>
 
                         <td>{{ $registration->nombre }}</td>
-                        <td>{{ $registration->fecha_nacimiento }}</td>
-                        <td>
+                        {{-- <td>{{ $registration->fecha_nacimiento }}</td> --}}
+                        <td>{{ $registration->getAge() }}</td>
+                        {{-- <td>{{ $registration->telefono }}</td> --}}
+                        {{-- <td>{{ $registration->correo }}</td> --}}
+                        {{-- <td>
                             <span class="badge {{ $registration->pertenece_iglesia ? 'bg-success' : 'bg-danger' }}">
                                 {{ $registration->pertenece_iglesia ? 'SI' : 'NO' }}
                             </span>
-                        </td>
-                        <td>{{ $registration->nombre_iglesia }}</td>
-                        <td>{{ $registration->telefono }}</td>
-                        <td>{{ $registration->correo }}</td>
+                        </td> --}}
+                        {{-- <td>{{ $registration->nombre_iglesia }}</td> --}}
+
                         <td>{{ $registration->padece_condicion_medica }}</td>
-                        <td>{{ $registration->persona_invitada }}</td>
-                        <td class="d-flex justify-content-end">
-                            {{-- <a href="{{ route('register.edit', $registration->id) }}" class="btn btn-primary">Editar</a> --}}
+                        {{-- <td>{{ $registration->persona_invitada }}</td> --}}
+                        <td class="d-flex justify-content-end gap-1">
+                            <a href="{{ route('register.show', $registration->id) }}" class="btn btn-primary">View</a> 
 
                             <form id="form_destroy_{{ $registration->id }}" style="opacity: 0"
                                 action="{{ route('register.destroy', $registration->id) }}" method="POST">

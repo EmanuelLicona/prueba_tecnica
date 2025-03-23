@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Registration;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -18,6 +20,11 @@ class RegisterController extends Controller
         return view('register.index', compact('registrations'));
     }
 
+    public function show($id)
+    {
+        $registration = Registration::with('childrenRegistrations')->find($id);
+        return view('register.show', compact('registration'));
+    }
 
     public function store(Request $request)
     {
@@ -62,20 +69,55 @@ class RegisterController extends Controller
         return redirect()->route('register.index')->with('success', 'Registro eliminado exitosamente');
     }
 
-    public function edit($id)
-    {
-        // producto con categoria
-        $registration = Registration::with('categories')->find($id);
 
-        if (!$registration) {
-            return redirect()->route('register.index')->withErrors(['name' => 'Registro no encontrado']);
+
+
+    public function newRegistration(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            //transaction 
+
+            $registrationParent = new Registration();
+            $registrationParent->nombre = $request->nombre;
+            $registrationParent->correo = $request->email;
+            $registrationParent->telefono = $request->telefono;
+            $registrationParent->fecha_nacimiento = $request->fecha_nacimiento;
+            $registrationParent->pertenece_iglesia = $request->pertenece_iglesia;
+            $registrationParent->nombre_iglesia = $request->nombre_iglesia;
+            $registrationParent->padece_condicion_medica = $request->padece_condicion_medica;
+
+            $registrationParent->save();
+
+            foreach ($request->personas_invitadas as $persona) {
+                $registrationChild = new Registration();
+
+                $registrationChild->nombre = $persona['nombre'];
+                $registrationChild->fecha_nacimiento = $persona['fecha_nacimiento'];
+                $registrationChild->padece_condicion_medica = $persona['padece_condicion_medica'];
+                $registrationChild->estado = true;
+                $registrationChild->pertenece_iglesia = $registrationParent->pertenece_iglesia;
+
+                $registrationChild->parent_registration_id = $registrationParent->id;
+
+                $registrationChild->save();
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'request' => $request->all(),
+            ], 201);
+        } catch (Exception $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 400);
         }
-
-        return view('register.edit');
-    }
-
-    public function update(Request $request, $id)
-    {
-        return redirect()->route('register.index')->with('success', 'Registro actualizado exitosamente');
     }
 }

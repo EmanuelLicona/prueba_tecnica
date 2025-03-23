@@ -5,7 +5,7 @@
     <section class="flex flex-col justify-between align-items-center">
 
         <form class="row mx-auto border bg-white rounded" style="max-width: 800px; margin-top: 50px; padding: 20px;"
-            method="POST" action="{{ route('register.store') }}">
+            method="POST" action="{{ route('register.store') }}" id="formRegister">
 
             @csrf
             <img src="{{ asset('images/logo-iglesia.webp') }}" alt="logo iglesia" class="img-fluid mx-auto"
@@ -94,20 +94,22 @@
             </div>
 
 
-{{-- 
-            <div class="col-md-12 mt-3">
-                <label for="persona_invitada" class="form-label">Person who wishes to register? </label>
-      
+            <section class="col-md-12 mb-5">
+                <div class="col-md-12 mt-3 d-flex justify-content-between">
+                    <label for="persona_invitada" class="form-label">Person who wishes to register? </label>
+                </div>
 
-                <select class="form-control" id="persona_invitada" name="persona_invitada">
-                    <option value="0" @if (old('persona_invitada') == 0) selected @endif>NO</option>
-                    <option value="1" @if (old('persona_invitada') == 1) selected @endif>YES</option>
-                </select>
-            </div> --}}
+                <div id="containerPersonasInvitadas" class="row my-3">
+                </div>
+
+                <button class="btn btn-success" type="button" id="btnAddPerson">ADD</button>
+                <button class="btn btn-danger" type="button" id="btnDeletePerson">Delete</button>
+
+            </section>
 
 
 
-            <div class="col-md-12 mt-3">
+            <div class="col-md-12 mt-3 ">
                 <button type="submit" class="btn btn-primary">Register</button>
             </div>
 
@@ -119,8 +121,9 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
+        let indexPersonasInvitadas = 1;
 
+        $(document).ready(function() {
             $('#inputPerteneceIglesia').on('change', function() {
                 if ($(this).val() == '1') {
                     $('#inputNombreIglesia').show();
@@ -134,14 +137,106 @@
                 }
             });
 
-            $('#persona_invitada').on('change', function() {
-                if ($(this).val() == '1') {
-                    $('#containerPersonaInvitada').show();
-                } else {
-                    $('#containerPersonaInvitada').hide();
+            $('#btnAddPerson').on('click', function() {
+                let html = "";
+
+                html += `
+                    <div class="row ${indexPersonasInvitadas >= 1 ? 'mt-4' : ''}" id="form_invited_${indexPersonasInvitadas}">
+                        <h3>Person ${indexPersonasInvitadas}</h3>
+                            <div class="col-md-6">
+                                <label for="inputNombre_${indexPersonasInvitadas}" class="form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="inputNombre_${indexPersonasInvitadas}" name="nombre_${indexPersonasInvitadas}"
+                                    required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputNacimiento_${indexPersonasInvitadas}" class="form-label">Birthday <span class="text-danger">*</span>
+                                </label>
+                                <input type="date" class="form-control" id="inputNacimiento_${indexPersonasInvitadas}" name="fecha_nacimiento_${indexPersonasInvitadas}"
+                                required>
+                            </div>
+
+                            <div class="col-md-12 mt-3">
+                                <label for="inputPadeceCondicionMedica_${indexPersonasInvitadas}" class="form-label">Do you suffer from any illness or
+                                    allergy??</label>
+                                <textarea class="form-control" id="inputPadeceCondicionMedica_${indexPersonasInvitadas}" name="padece_condicion_medica_${indexPersonasInvitadas}"a></textarea>
+                            </div>
+                        </div>
+
+                    `;
+
+                $('#containerPersonasInvitadas').append(html);
+                indexPersonasInvitadas++;
+            });
+
+            $('#btnDeletePerson').on('click', function() {
+                $('#form_invited_' + indexPersonasInvitadas).remove();
+
+                if (indexPersonasInvitadas == 1) return;
+                indexPersonasInvitadas--;
+            });
+
+            $('#formRegister').on('submit', function(e) {
+                e.preventDefault();
+
+                const nombre = $('#inputNombre').val();
+                const email = $('#inputEmail').val();
+                const telefono = $('#inputTelefono').val();
+                const fecha_nacimiento = $('#inputNacimiento').val();
+                const pertenece_iglesia = $('#inputPerteneceIglesia').val();
+                const nombre_iglesia = $('#inputNombreIglesia').val();
+                const padece_condicion_medica = $('#inputPadeceCondicionMedica').val(); 
+
+                const personaInvitadas = [];
+                for (let i = 0; i < indexPersonasInvitadas; i++) {
+                    personaInvitadas.push({
+                        nombre: $(`#inputNombre_${i}`).val(),
+                        fecha_nacimiento: $(`#inputNacimiento_${i}`).val(),
+                        padece_condicion_medica: $(`#inputPadeceCondicionMedica_${i}`).val(),
+                    });
                 }
+
+                const data = {
+                    nombre,
+                    email,
+                    telefono,
+                    fecha_nacimiento,
+                    pertenece_iglesia,
+                    nombre_iglesia,
+                    padece_condicion_medica,
+                    personas_invitadas: personaInvitadas
+                };
+
+                $.ajax({
+                    url: '{{ route('register.newRegistration') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    data: data,
+                    success: function(response) {
+                        toastr.success('Registro exitoso');
+                        cleanInputs();
+                    },
+                    error: function(error) {
+                        toastr.error('Error al registrar', error.responseJSON.error);
+                    },
+                });
             });
 
         });
+
+        function cleanInputs() {
+            $('#inputNombre').val('');
+            $('#inputEmail').val('');
+            $('#inputTelefono').val('');
+            $('#inputNacimiento').val('');
+            $('#inputPerteneceIglesia').val('');
+            $('#inputNombreIglesia').val('');
+            $('#inputPadeceCondicionMedica').val('');
+
+            $('#containerPersonasInvitadas').html('');
+            indexPersonasInvitadas = 1;
+        }
     </script>
 @endsection
