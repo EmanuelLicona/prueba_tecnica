@@ -87,10 +87,22 @@
             </div>
 
             <div class="col-md-12 mt-3">
-                <label for="inputPadeceCondicionMedica" class="form-label">Do you suffer from any illness or
-                    allergy??</label>
-                <textarea class="form-control" id="inputPadeceCondicionMedica" name="padece_condicion_medica"
-                    value="{{ old('padece_condicion_medica') }}"></textarea>
+                <label for="selectPadeceCondicionMedica" class="form-label">Do you suffer from any illness or
+                    allergy?? <span class="text-danger">*</span></label>
+
+                <div class="row" style="">
+
+                    <div class="col-md-4">
+                        <select class="form-control " id="selectPadeceCondicionMedica">
+                            <option value="0">NO</option>
+                            <option value="1">YES</option>
+                        </select>
+
+                    </div>
+
+                </div>
+                <textarea class="form-control mt-1" id="inputPadeceCondicionMedica" name="padece_condicion_medica"
+                    style="display:none;"></textarea>
             </div>
 
 
@@ -134,6 +146,16 @@
                     $('#inputNombreIglesia').hide();
                     $('#labelNombreIglesia').hide();
                     $('#inputNombreIglesia').prop('required', false);
+                }
+            });
+
+            $('#selectPadeceCondicionMedica').on('change', function() {
+                if ($(this).val() == '1') {
+                    $('#inputPadeceCondicionMedica').show();
+                    $('#inputPadeceCondicionMedica').prop('required', true);
+                } else {
+                    $('#inputPadeceCondicionMedica').hide();
+                    $('#inputPadeceCondicionMedica').prop('required', false);
                 }
             });
 
@@ -185,7 +207,7 @@
                 const fecha_nacimiento = $('#inputNacimiento').val();
                 const pertenece_iglesia = $('#inputPerteneceIglesia').val();
                 const nombre_iglesia = $('#inputNombreIglesia').val();
-                const padece_condicion_medica = $('#inputPadeceCondicionMedica').val(); 
+                const padece_condicion_medica = $('#inputPadeceCondicionMedica').val();
 
                 const personaInvitadas = [];
                 for (let i = 0; i < indexPersonasInvitadas; i++) {
