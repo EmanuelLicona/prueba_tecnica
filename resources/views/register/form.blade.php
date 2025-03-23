@@ -136,6 +136,11 @@
         let indexPersonasInvitadas = 1;
 
         $(document).ready(function() {
+
+            $("#inputTelefono").inputmask("phone", {
+                "mask": "+(999) 999 9999"
+            });
+
             $('#inputPerteneceIglesia').on('change', function() {
                 if ($(this).val() == '1') {
                     $('#inputNombreIglesia').show();
@@ -204,6 +209,17 @@
                 const nombre = $('#inputNombre').val();
                 const email = $('#inputEmail').val();
                 const telefono = $('#inputTelefono').val();
+
+                let verify = Inputmask.isValid(telefono, {
+                    mask: "+(999) 999 9999"
+                });
+
+                if (!verify) {
+                    toastr.error('Telefono no es valido ' + telefono);
+                    $('#inputTelefono').focus();
+                    return;
+                }
+
                 const fecha_nacimiento = $('#inputNacimiento').val();
                 const pertenece_iglesia = $('#inputPerteneceIglesia').val();
                 const nombre_iglesia = $('#inputNombreIglesia').val();
@@ -253,9 +269,13 @@
             $('#inputEmail').val('');
             $('#inputTelefono').val('');
             $('#inputNacimiento').val('');
-            $('#inputPerteneceIglesia').val('');
+            
+            $('#inputPerteneceIglesia').val('0');
+
             $('#inputNombreIglesia').val('');
             $('#inputPadeceCondicionMedica').val('');
+
+            $('#selectPadeceCondicionMedica').val('0');
 
             $('#containerPersonasInvitadas').html('');
             indexPersonasInvitadas = 1;
