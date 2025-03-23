@@ -239,7 +239,7 @@
                     const fecha_nacimiento = $(`#inputNacimiento_${i}`).val();
                     const padece_condicion_medica = $(`#inputPadeceCondicionMedica_${i}`).val();
 
-                    if (!nombre.match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ\s]+$/)) {
+                    if (nombre && !nombre.match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ\s]+$/)) {
                         toastr.error('Nombre no es valido ' + nombre);
                         $('#inputNombre_' + i).focus();
                         return;
