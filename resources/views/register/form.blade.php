@@ -270,12 +270,12 @@
             $('#inputTelefono').val('');
             $('#inputNacimiento').val('');
             
-            $('#inputPerteneceIglesia').val('0');
+            $('#inputPerteneceIglesia').val('0').trigger('change');
 
             $('#inputNombreIglesia').val('');
             $('#inputPadeceCondicionMedica').val('');
 
-            $('#selectPadeceCondicionMedica').val('0');
+            $('#selectPadeceCondicionMedica').val('0').trigger('change');
 
             $('#containerPersonasInvitadas').html('');
             indexPersonasInvitadas = 1;
