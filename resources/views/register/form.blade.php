@@ -227,21 +227,17 @@
         });
 
         function cleanInputs() {
-            // $('#inputNombre').val('');
-            // $('#inputEmail').val('');
-            // $('#inputTelefono').val('');
-            // $('#inputNacimiento').val('');
-            // $('#inputPerteneceIglesia').val('');
-            // $('#inputNombreIglesia').val('');
-            // $('#inputPadeceCondicionMedica').val('');
+            $('#inputNombre').val('');
+            $('#inputEmail').val('');
+            $('#inputTelefono').val('');
+            $('#inputNacimiento').val('');
+            $('#inputPerteneceIglesia').val('');
+            $('#inputNombreIglesia').val('');
+            $('#inputPadeceCondicionMedica').val('');
 
-            // $('#containerPersonasInvitadas').html('');
-            // indexPersonasInvitadas = 1;
+            $('#containerPersonasInvitadas').html('');
+            indexPersonasInvitadas = 1;
 
-            setTimeout(() => {
-                // reload page
-                window.location.reload();
-            }, 2000);
         }
     </script>
 @endsection

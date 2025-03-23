@@ -90,18 +90,21 @@ class RegisterController extends Controller
 
             $registrationParent->save();
 
-            foreach ($request->personas_invitadas as $persona) {
-                $registrationChild = new Registration();
+            if ($request->personas_invitadas) {
 
-                $registrationChild->nombre = $persona['nombre'];
-                $registrationChild->fecha_nacimiento = $persona['fecha_nacimiento'];
-                $registrationChild->padece_condicion_medica = $persona['padece_condicion_medica'];
-                $registrationChild->estado = true;
-                $registrationChild->pertenece_iglesia = $registrationParent->pertenece_iglesia;
+                foreach ($request->personas_invitadas as $persona) {
+                    $registrationChild = new Registration();
 
-                $registrationChild->parent_registration_id = $registrationParent->id;
+                    $registrationChild->nombre = $persona['nombre'];
+                    $registrationChild->fecha_nacimiento = $persona['fecha_nacimiento'];
+                    $registrationChild->padece_condicion_medica = $persona['padece_condicion_medica'];
+                    $registrationChild->estado = true;
+                    $registrationChild->pertenece_iglesia = $registrationParent->pertenece_iglesia;
 
-                $registrationChild->save();
+                    $registrationChild->parent_registration_id = $registrationParent->id;
+
+                    $registrationChild->save();
+                }
             }
 
             DB::commit();
