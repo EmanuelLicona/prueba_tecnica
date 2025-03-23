@@ -235,10 +235,20 @@
 
                 const personaInvitadas = [];
                 for (let i = 0; i < indexPersonasInvitadas; i++) {
+                    const nombre = $(`#inputNombre_${i}`).val();
+                    const fecha_nacimiento = $(`#inputNacimiento_${i}`).val();
+                    const padece_condicion_medica = $(`#inputPadeceCondicionMedica_${i}`).val();
+
+                    if (!nombre.match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ\s]+$/)) {
+                        toastr.error('Nombre no es valido ' + nombre);
+                        $('#inputNombre_' + i).focus();
+                        return;
+                    }
+
                     personaInvitadas.push({
-                        nombre: $(`#inputNombre_${i}`).val(),
-                        fecha_nacimiento: $(`#inputNacimiento_${i}`).val(),
-                        padece_condicion_medica: $(`#inputPadeceCondicionMedica_${i}`).val(),
+                        nombre,
+                        fecha_nacimiento,
+                        padece_condicion_medica
                     });
                 }
 
@@ -277,7 +287,7 @@
             $('#inputEmail').val('');
             $('#inputTelefono').val('');
             $('#inputNacimiento').val('');
-            
+
             $('#inputPerteneceIglesia').val('0').trigger('change');
 
             $('#inputNombreIglesia').val('');
