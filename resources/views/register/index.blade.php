@@ -25,6 +25,8 @@
                 <tr>
                     <th>Name</th>
                     <th>Birthday</th>
+                    <th>Phone</th>
+                    <th>email</th>
                     <th>belongs to a church</th>
                     <th>Church name</th>
                     <th>Do you suffer from any illness or allergy?</th>
@@ -44,10 +46,12 @@
                             </span>
                         </td>
                         <td>{{ $registration->nombre_iglesia }}</td>
+                        <td>{{ $registration->telefono }}</td>
+                        <td>{{ $registration->correo }}</td>
                         <td>{{ $registration->padece_condicion_medica }}</td>
                         <td>{{ $registration->persona_invitada }}</td>
                         <td class="d-flex justify-content-end">
-                            <a href="{{ route('register.edit', $registration->id) }}" class="btn btn-primary">Editar</a>
+                            {{-- <a href="{{ route('register.edit', $registration->id) }}" class="btn btn-primary">Editar</a> --}}
 
                             <form id="form_destroy_{{ $registration->id }}" style="opacity: 0"
                                 action="{{ route('register.destroy', $registration->id) }}" method="POST">

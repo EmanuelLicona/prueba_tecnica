@@ -27,6 +27,7 @@ class RegisterController extends Controller
                 'nombre' => 'required',
                 'fecha_nacimiento' => 'required',
                 'pertenece_iglesia' => 'required',
+                'telefono' => 'required',
                 // 'nombre_iglesia' => 'required',
                 // 'padece_condicion_medica' => 'required',
                 // 'persona_invitada' => 'required',
@@ -40,10 +41,12 @@ class RegisterController extends Controller
         $registration->nombre_iglesia = $request->nombre_iglesia;
         $registration->padece_condicion_medica = $request->padece_condicion_medica;
         $registration->persona_invitada = $request->persona_invitada;
+        $registration->telefono = $request->telefono;
+        $registration->correo = $request->correo;
         $registration->estado = true;
         $registration->save();
 
-        return redirect()->route('register_form')->with('success', 'Registro exitoso');
+        return redirect()->route('register_form')->with('success', 'Registration successful, thank you for your participation');
     }
 
     public function destroy($id)
