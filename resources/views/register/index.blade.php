@@ -53,8 +53,10 @@
                         {{-- <td>{{ $registration->nombre_iglesia }}</td> --}}
 
                         <td>
-                            @if ($registration->parent_registration)
-                                <a href="{{ route('register.show', $registration->parent_registration->id) }}">
+                            @if ($registration->parentRegistration)
+                                <a class="btn btn-primary" href="{{ route('register.show', $registration->parentRegistration->id) }}">
+                                    GO
+                                </a>
                             @endif
                         </td>
 
