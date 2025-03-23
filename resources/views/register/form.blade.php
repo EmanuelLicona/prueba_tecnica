@@ -207,6 +207,14 @@
                 e.preventDefault();
 
                 const nombre = $('#inputNombre').val();
+
+                if (!nombre.match(/^[a-zA-ZñÑáéíóúÁÉÍÓÚñÑ\s]+$/)) {
+                    toastr.error('Nombre no es valido ' + nombre);
+                    $('#inputNombre').focus();
+                    return;
+                }
+
+
                 const email = $('#inputEmail').val();
                 const telefono = $('#inputTelefono').val();
 
