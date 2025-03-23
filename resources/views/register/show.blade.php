@@ -14,6 +14,12 @@
             <dt>Birthday</dt>
             <dd>{{ $registration->fecha_nacimiento }}</dd>
 
+            <dt>Phone</dt>
+            <dd>{{ $registration->telefono }}</dd>
+
+            <dt>Email</dt>
+            <dd>{{ $registration->correo }}</dd>
+
             <dt>Belongs to a church?</dt>
             <dd>
                 <span class="badge {{ $registration->pertenece_iglesia ? 'bg-success' : 'bg-danger' }}">
